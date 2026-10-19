@@ -1,0 +1,97 @@
+<!-- 模块五：古风科普日历 -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">古风科普日历</text>
+      <text class="pa" bindtap="today">回到今天 ›</text>
+    </view>
+    <view class="pd">每天一个古风词条：来源、语法、正确用法与常见误用。</view>
+  </view>
+
+  <!-- 日期导航 -->
+  <view class="datebar">
+    <view class="nav-btn" bindtap="prev">‹</view>
+    <view class="date">
+      <view class="dt">{{dateStr}}</view>
+      <view class="dw">{{weekStr}}<text class="tday" wx:if="{{isToday}}"> · 今天</text></view>
+    </view>
+    <view class="nav-btn" bindtap="next">›</view>
+  </view>
+
+  <!-- 今日词条 -->
+  <view class="card word-card" wx:if="{{e}}">
+    <view class="wc-top">
+      <text class="badge">{{e.category}}</text>
+      <text class="badge badge-red" wx:if="{{isDebunk}}">辟谣条目</text>
+    </view>
+    <view class="word">{{e.word}}</view>
+    <view class="modern">现代对应：<text class="mb">{{e.modern}}</text></view>
+    <view class="copybtn" bindtap="copyWord">复制词条</view>
+  </view>
+
+  <!-- 四宫格详解 -->
+  <view class="grid" wx:if="{{e}}">
+    <view class="gcell">
+      <view class="gt">📖 来源出处</view>
+      <view class="gc">{{e.source}}</view>
+    </view>
+    <view class="gcell">
+      <view class="gt">🧩 语法分析</view>
+      <view class="gc">{{e.grammar}}</view>
+    </view>
+    <view class="gcell">
+      <view class="gt">✅ 正确用法</view>
+      <view class="gc">{{e.usage}}</view>
+    </view>
+    <view class="gcell">
+      <view class="gt">⚠️ 常见误用</view>
+      <view class="gc">{{e.misuse}}</view>
+    </view>
+  </view>
+
+  <!-- 网络用例 -->
+  <view class="sec" wx:if="{{e}}">
+    <view class="sec-h"><text class="h2">💬 网络用例</text></view>
+    <view class="card">
+      <view class="eg" wx:for="{{e.examples}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 词条索引 -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">词条索引</text>
+    </view>
+
+    <view class="search">
+      <text class="sic">🔍</text>
+      <input class="sinput" value="{{q}}" placeholder="搜索词条、释义或出处"
+             confirm-type="search" bindinput="onInput" />
+      <text class="sclr" wx:if="{{q}}" bindtap="onClear">✕</text>
+    </view>
+
+    <view class="chips">
+      <view class="chip {{item === cat ? 'chip-on' : ''}}" wx:for="{{cats}}" wx:key="*this"
+            data-c="{{item}}" bindtap="onCat">{{item}}</view>
+    </view>
+
+    <view class="count">{{countText}}</view>
+
+    <view class="card" wx:if="{{list.length}}">
+      <view class="crow {{item.on ? 'on' : ''}}" wx:for="{{list}}" wx:key="word"
+            data-w="{{item.word}}" bindtap="onPickWord">
+        <view class="cw">{{item.word}}</view>
+        <view class="cs">{{item.modern}}</view>
+        <view class="ct">{{item.cat}}</view>
+      </view>
+    </view>
+    <view class="card mini-empty" wx:else>没有匹配的词条</view>
+  </view>
+
+  <view class="nextbar" bindtap="toWorkshop">
+    <text class="nt">想用这些词写一句</text>
+    <text class="na">去改编工坊 ›</text>
+  </view>
+
+</view>

@@ -1,0 +1,91 @@
+<!-- 登录 / 注册：登录后古籍收藏、核验流水、改编历史存服务端，可跨设备 -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">{{loggedIn ? '账号' : '登录'}}</text>
+      <text class="pa" bindtap="back">返回</text>
+    </view>
+    <view class="pd">{{loggedIn ? '收藏与记录已同步到服务端。' : '登录只是为了让收藏和历史跟人走，不影响使用。'}}</view>
+  </view>
+
+  <!-- 已登录 -->
+  <block wx:if="{{loggedIn}}">
+    <view class="card">
+      <view class="row"><text class="k">当前账号</text><text class="v b">{{nickname0}}</text></view>
+      <view class="row"><text class="k">数据</text><text class="v">收藏 · 核验 · 改编记录存服务端</text></view>
+      <view class="row"><text class="k">后端</text><text class="v">{{base}}</text></view>
+    </view>
+    <view class="acts" style="margin-top:28rpx;">
+      <view class="btn btn-o" hover-class="btn-o-hv" bindtap="logout">退出登录</view>
+      <view class="btn btn-p" hover-class="btn-p-hv" bindtap="back">继续使用</view>
+    </view>
+    <view class="hint" style="margin-top:20rpx;">退出后本机书架与作品仍保留，但不再与服务端同步。</view>
+  </block>
+
+  <!-- 未登录 -->
+  <block wx:else>
+
+    <!-- 先告诉用户能不能连上，再让他输账号——顺序错了会白填一遍 -->
+    <view class="offbar" wx:if="{{online === false}}">
+      <text class="ot">连不上后端，登录暂时不可用。可先用离线模式浏览，或改用本机地址重试。</text>
+      <text class="oa" bindtap="resetBase">用本机地址</text>
+    </view>
+
+    <view class="tabs">
+      <view class="tab {{tab === 'login' ? 'on' : ''}}" data-t="login" bindtap="onTab">登录</view>
+      <view class="tab {{tab === 'register' ? 'on' : ''}}" data-t="register" bindtap="onTab">注册</view>
+    </view>
+
+    <view class="card">
+      <view class="field">
+        <view class="fl">账号</view>
+        <input class="fi" value="{{username}}" placeholder="3—20 位字母或数字" bindinput="onUser" />
+      </view>
+      <view class="field">
+        <view class="fl">密码</view>
+        <input class="fi" value="{{password}}" password="{{true}}" placeholder="至少 6 位" bindinput="onPass" />
+      </view>
+      <view class="field" wx:if="{{tab === 'register'}}">
+        <view class="fl">昵称（可选）</view>
+        <input class="fi" value="{{nickname}}" placeholder="不填则用账号名" bindinput="onNick" />
+      </view>
+    </view>
+
+    <view class="err" wx:if="{{errMsg}}">{{errMsg}}</view>
+
+    <view class="acts" style="margin-top:24rpx;">
+      <view class="btn {{busy ? 'btn-dis' : 'btn-p'}}" hover-class="btn-p-hv" bindtap="submit">
+        {{busy ? '处理中…' : (tab === 'login' ? '登录' : '创建账号')}}
+      </view>
+    </view>
+
+    <view class="hint" style="margin-top:18rpx;" wx:if="{{online === true}}">
+      后端已连接 · {{base}}
+    </view>
+
+    <!-- 后端地址：默认收起，只在连不上时才需要动 -->
+    <view class="acc" style="margin-top:26rpx;">
+      <view class="acc-h" bindtap="onToggleBase">
+        <text class="at">后端地址</text>
+        <text class="av">{{base}}</text>
+        <text class="aa">{{showBase ? '收起' : '修改'}}</text>
+      </view>
+      <view class="acc-b" wx:if="{{showBase}}">
+        <input class="fi" value="{{base}}" placeholder="http://localhost:8081" bindinput="onBase" />
+        <view class="kb-acts">
+          <text class="kb-a" bindtap="saveBase">保存</text>
+          <text class="kb-a" bindtap="resetBase">恢复默认</text>
+        </view>
+        <view class="hint">真机调试填电脑的局域网地址（如 http://192.168.1.10:8081），并在微信公众平台加入 request 合法域名。</view>
+      </view>
+    </view>
+
+    <view class="nextbar" bindtap="toBooks">
+      <text class="nt">不登录也能用</text>
+      <text class="na">先去书库逛逛 ›</text>
+    </view>
+
+  </block>
+
+</view>

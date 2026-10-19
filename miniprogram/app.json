@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/books/books",
+    "pages/book/book",
+    "pages/verify/verify",
+    "pages/workshop/workshop",
+    "pages/fav/fav",
+    "pages/calendar/calendar",
+    "pages/login/login",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#3d7a4f",
+    "navigationBarTitleText": "语脉新生",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f5f2"
+  },
+  "tabBar": {
+    "color": "#8f8f8f",
+    "selectedColor": "#3d7a4f",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "总览" },
+      { "pagePath": "pages/books/books", "text": "古籍书库" },
+      { "pagePath": "pages/workshop/workshop", "text": "改编工坊" },
+      { "pagePath": "pages/fav/fav", "text": "我的" },
+      { "pagePath": "pages/calendar/calendar", "text": "科普日历" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

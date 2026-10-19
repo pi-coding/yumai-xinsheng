@@ -1,0 +1,164 @@
+/* ---------------- 头部 ---------------- */
+.hd { padding: 4rpx 0 8rpx; }
+.hd-t { font-size: 38rpx; font-weight: 700; letter-spacing: 2rpx; }
+.hd-d { font-size: 25rpx; color: #6f6a60; line-height: 1.8; margin-top: 10rpx; }
+.hl { color: #a8322d; font-weight: 600; }
+.hd-m { font-size: 21rpx; color: #9a9a9a; margin-top: 10rpx; }
+
+/* ---------------- 分段标签 ---------------- */
+.tabs {
+  display: flex; margin: 24rpx 0 20rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 24rpx; padding: 6rpx;
+}
+.tab {
+  flex: 1; text-align: center; font-size: 26rpx; color: #7a7468;
+  padding: 14rpx 0; border-radius: 18rpx;
+}
+.tab.on { background: #3d7a4f; color: #ffffff; font-weight: 600; }
+
+/* ---------------- 输入 ---------------- */
+.ta {
+  width: 100%; min-height: 180rpx; font-size: 28rpx; line-height: 1.7;
+  background: #fbfaf7; border: 1rpx solid #e8e5de; border-radius: 16rpx;
+  padding: 20rpx; box-sizing: border-box;
+}
+.ipt {
+  font-size: 27rpx; background: #fbfaf7; border: 1rpx solid #e8e5de;
+  border-radius: 16rpx; padding: 16rpx 20rpx;
+}
+.row-btns { display: flex; gap: 16rpx; margin-top: 20rpx; }
+.row-btns .btn { flex: 1; }
+.s-lb { font-size: 22rpx; color: #9a9a9a; margin-bottom: 10rpx; }
+.samples { display: flex; align-items: center; flex-wrap: wrap; margin: 0 0 14rpx; }
+.s-l { font-size: 22rpx; color: #9a9a9a; margin-right: 10rpx; }
+.s-b {
+  font-size: 21rpx; color: #3d7a4f; background: #eaf3ec;
+  border: 1rpx solid #cfe3d5; border-radius: 24rpx;
+  padding: 6rpx 16rpx; margin: 0 12rpx 10rpx 0;
+}
+.ta-hint { font-size: 20rpx; color: #a8a8a8; margin-top: 12rpx; }
+
+/* ---------------- 总体结论 ---------------- */
+.verdict {
+  margin-top: 24rpx; padding: 26rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 24rpx;
+}
+.verdict.lv-bad { border-color: #e0b3ae; background: linear-gradient(180deg, #fdf2f0, #ffffff 60%); }
+.verdict.lv-warn { border-color: #e2d3ad; background: linear-gradient(180deg, #fdf8ea, #ffffff 60%); }
+.verdict.lv-ok { border-color: #b7d4cb; background: linear-gradient(180deg, #eef7f4, #ffffff 60%); }
+.verdict.lv-none { border-color: #e8e5de; }
+.vd-top { display: flex; align-items: center; flex-wrap: wrap; }
+.vd-badge {
+  font-size: 30rpx; font-weight: 700; color: #ffffff;
+  background: #a8322d; border-radius: 30rpx; padding: 6rpx 24rpx;
+}
+.lv-bad .vd-badge { background: #a8322d; }
+.lv-warn .vd-badge { background: #b8860b; }
+.lv-ok .vd-badge { background: #3d7a4f; }
+.lv-none .vd-badge { background: #8f8f8f; }
+.vd-count { font-size: 22rpx; color: #7a7468; margin-left: 14rpx; }
+
+.cred { display: flex; align-items: center; margin-top: 18rpx; }
+.cred-l { font-size: 21rpx; color: #9a9a9a; margin-right: 12rpx; }
+.cred-track {
+  flex: 1; height: 14rpx; background: #eceae4; border-radius: 10rpx; overflow: hidden;
+}
+.cred-fill { height: 14rpx; background: linear-gradient(90deg, #b8860b, #3d7a4f); border-radius: 10rpx; }
+.cred-n { font-size: 26rpx; font-weight: 700; color: #3d7a4f; margin: 0 12rpx; }
+.cred-c { font-size: 21rpx; color: #7a7468; }
+.cred-none { font-size: 22rpx; color: #9a9a9a; }
+
+.vd-sum { font-size: 25rpx; line-height: 1.85; color: #4a453c; margin-top: 16rpx; }
+.vd-adv { font-size: 23rpx; line-height: 1.8; color: #7a5c1f; margin-top: 8rpx; }
+
+/* ---------------- 逐段 ---------------- */
+.seg {
+  margin-top: 24rpx; padding: 26rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 24rpx;
+}
+.seg-top { display: flex; align-items: center; justify-content: space-between; }
+.seg-i { font-size: 20rpx; color: #9a9a9a; }
+.seg-badge {
+  font-size: 22rpx; color: #ffffff; border-radius: 20rpx; padding: 4rpx 18rpx;
+  margin-left: auto;
+}
+.seg-badge.lv-bad { background: #a8322d; }
+.seg-badge.lv-warn { background: #b8860b; }
+.seg-badge.lv-ok { background: #3d7a4f; }
+.seg-badge.lv-none { background: #8f8f8f; }
+.seg-text {
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: 30rpx; line-height: 1.8; color: #2f2a24; margin-top: 12rpx;
+}
+.seg-sum { font-size: 22rpx; color: #8f8f8f; line-height: 1.8; margin-top: 8rpx; }
+.seg-count { font-size: 20rpx; color: #a8a8a8; margin-top: 16rpx; }
+
+/* ---------------- 命中条目 ---------------- */
+.hit {
+  margin-top: 18rpx; padding: 20rpx 22rpx;
+  border: 1rpx solid #efece4; border-left: 6rpx solid #b8860b;
+  border-radius: 14rpx; background: #fbfaf7;
+}
+.hit.lv-bad { border-left-color: #a8322d; background: #fdf7f5; }
+.hit.lv-warn { border-left-color: #b8860b; background: #fdfaf2; }
+.hit.lv-ok { border-left-color: #3d7a4f; background: #f6faf7; }
+.hit.lv-info { border-left-color: #5b6b86; background: #f7f8fa; }
+.hit-top { display: flex; }
+.hit-l {
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: 28rpx; line-height: 1.7; color: #2f2a24;
+}
+.hit-tags { display: flex; flex-wrap: wrap; margin-top: 10rpx; }
+.t-lv {
+  font-size: 19rpx; color: #ffffff; background: #a8322d;
+  border-radius: 8rpx; padding: 3rpx 12rpx; margin: 0 10rpx 8rpx 0;
+}
+.hit.lv-ok .t-lv { background: #3d7a4f; }
+.hit.lv-warn .t-lv { background: #b8860b; }
+.hit.lv-info .t-lv { background: #5b6b86; }
+.t-kind, .t-chk {
+  font-size: 19rpx; color: #7a7468; background: #f1efe9;
+  border-radius: 8rpx; padding: 3rpx 12rpx; margin: 0 10rpx 8rpx 0;
+}
+.kv { display: flex; font-size: 23rpx; line-height: 1.8; margin-top: 8rpx; }
+.kv .k { flex: 0 0 108rpx; color: #9a9a9a; }
+.kv .v { flex: 1; color: #4a453c; }
+.kv .v.bad { color: #a8322d; }
+.kv .v.good { color: #3d7a4f; }
+
+.disc {
+  margin-top: 26rpx; font-size: 21rpx; color: #8f8f8f;
+  line-height: 1.8; background: #f4f3ef; border-radius: 14rpx; padding: 20rpx;
+}
+
+/* ---------------- 案例库 ---------------- */
+.chips { display: flex; flex-wrap: wrap; margin-top: 18rpx; }
+.chip {
+  font-size: 22rpx; color: #6f6a60; background: #fbfaf7;
+  border: 1rpx solid #e8e5de; border-radius: 24rpx;
+  padding: 8rpx 20rpx; margin: 0 12rpx 12rpx 0;
+}
+.chip.on { background: #3d7a4f; color: #ffffff; border-color: #3d7a4f; font-weight: 600; }
+.case-n { font-size: 21rpx; color: #9a9a9a; margin: 20rpx 0 4rpx; }
+
+.case {
+  margin-top: 18rpx; padding: 24rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 20rpx;
+}
+.case-top { display: flex; align-items: flex-start; }
+.case-p {
+  flex: 1; font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: 28rpx; line-height: 1.7; color: #2f2a24;
+}
+.case-lv {
+  flex: none; font-size: 19rpx; color: #ffffff; border-radius: 8rpx;
+  padding: 3rpx 12rpx; margin-left: 14rpx;
+}
+.case-lv.lv-bad { background: #a8322d; }
+.case-lv.lv-warn { background: #b8860b; }
+.case-act {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14rpx; padding-top: 14rpx; border-top: 1rpx dashed #eeeae2;
+}
+.case-chk { font-size: 20rpx; color: #a8a8a8; }
+.case-try { font-size: 22rpx; color: #3d7a4f; }

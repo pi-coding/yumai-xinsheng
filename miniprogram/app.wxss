@@ -1,0 +1,185 @@
+/* 语脉新生 · 全局样式（配色取自原 H5 复现版：墨绿／鎏金／米色） */
+page {
+  background: #f6f5f2;
+  color: #2b2b2b;
+  font-size: 28rpx;
+  line-height: 1.7;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+.page { padding: 24rpx 28rpx 60rpx; }
+
+/* ---------------- 卡片 ---------------- */
+.card {
+  background: #ffffff;
+  border: 1rpx solid #e8e5de;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 16rpx rgba(60, 50, 30, 0.05);
+}
+.sec { margin-bottom: 36rpx; }
+.sec-h {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.sec-h .h2 { font-size: 30rpx; font-weight: 700; }
+.sec-h .more { font-size: 25rpx; color: #8f8f8f; }
+
+/* ---------------- 按钮 ---------------- */
+.btn {
+  display: flex; align-items: center; justify-content: center;
+  height: 84rpx; border-radius: 18rpx;
+  font-size: 28rpx; font-weight: 600; line-height: 1;
+}
+.btn-p { background: #3d7a4f; color: #ffffff; }
+.btn-p-hv { background: #2f6140; }
+.btn-g { background: #d9a441; color: #ffffff; }
+.btn-o { background: #ffffff; border: 1rpx solid #e8e5de; color: #5f5f5f; }
+.btn-o-hv { background: #f7f6f2; }
+.btn-sm { height: 60rpx; font-size: 24rpx; border-radius: 12rpx; padding: 0 22rpx; }
+.btn-dis { background: #c8d6cc; color: #ffffff; }
+
+/* ---------------- 标签／徽章 ---------------- */
+.chip {
+  display: inline-block; padding: 8rpx 20rpx; margin: 0 12rpx 12rpx 0;
+  border-radius: 999rpx; font-size: 24rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; color: #5f5f5f;
+}
+.chip-on { background: #eaf3ec; border-color: #cfe3d5; color: #3d7a4f; font-weight: 600; }
+.tag {
+  display: inline-block; padding: 2rpx 14rpx; border-radius: 8rpx;
+  font-size: 22rpx; background: #eaf3ec; color: #3d7a4f;
+}
+.tag-gold { background: #fdf6e6; color: #b8860b; }
+.tag-red { background: #fbeeed; color: #c0504d; }
+.tag-blue { background: #eaf2f6; color: #3f7d9c; }
+
+/* ---------------- 空态 ---------------- */
+.empty {
+  padding: 90rpx 30rpx; text-align: center;
+  color: #8f8f8f; font-size: 26rpx; line-height: 1.9;
+}
+.mini-empty { padding: 30rpx 0; color: #b5b5b5; font-size: 25rpx; text-align: center; }
+
+/* ---------------- 分隔标题 ---------------- */
+.lbl {
+  font-size: 26rpx; font-weight: 700; margin-bottom: 18rpx; color: #2b2b2b;
+}
+.hint { font-size: 23rpx; color: #8f8f8f; line-height: 1.75; }
+
+/* ---------------- 行式列表项 ---------------- */
+.row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22rpx 0; border-bottom: 1rpx solid #f0eee8;
+}
+.row:last-child { border-bottom: none; }
+.row .k { color: #8f8f8f; font-size: 26rpx; flex: 0 0 130rpx; }
+.row .v { flex: 1; text-align: right; font-size: 27rpx; }
+
+/* ================= 指引类公共组件 =================
+   统一「这页做什么 → 下一步去哪」，避免每页各写一套。 */
+
+/* 页头：标题 + 一句话说明 + 右侧文字动作 */
+.pagehd { margin-bottom: 26rpx; }
+.pagehd-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.pagehd .pt { font-size: 38rpx; font-weight: 800; letter-spacing: 1rpx; line-height: 1.35; }
+.pagehd .pa { font-size: 24rpx; color: #3d7a4f; font-weight: 600; padding-top: 10rpx; flex: 0 0 auto; margin-left: 16rpx; }
+.pagehd .pd { font-size: 24rpx; color: #8f8f8f; line-height: 1.7; margin-top: 8rpx; }
+
+/* 步骤路径：编号 + 一句说明 + 箭头，整行可点 */
+.steps { display: flex; flex-direction: column; }
+.step { display: flex; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f2f0ea; }
+.step:last-child { border-bottom: none; padding-bottom: 2rpx; }
+.step-hv { opacity: 0.6; }
+.step .sn {
+  width: 40rpx; height: 40rpx; flex: 0 0 40rpx; margin-right: 18rpx;
+  border-radius: 50%; background: #eaf3ec; color: #3d7a4f;
+  font-size: 22rpx; font-weight: 700; line-height: 40rpx; text-align: center;
+}
+.step .sb { flex: 1; min-width: 0; }
+.step .st { font-size: 27rpx; font-weight: 700; }
+.step .sd { font-size: 23rpx; color: #8f8f8f; margin-top: 2rpx; }
+.step .sa { color: #c8c4ba; font-size: 34rpx; line-height: 1; margin-left: 12rpx; }
+
+/* 一行式数据条：替代六行表格，减少首屏高度 */
+.databar { display: flex; flex-wrap: wrap; }
+.databar .di { font-size: 23rpx; color: #8f8f8f; margin-right: 22rpx; line-height: 1.9; }
+.databar .di .dv { color: #2b2b2b; font-weight: 700; }
+
+/* 空态：可选图标 + 标题 + 说明 + 主行动按钮 */
+.empty .em { font-size: 52rpx; opacity: 0.45; margin-bottom: 10rpx; line-height: 1.2; }
+.empty .et { font-size: 27rpx; color: #6a6a6a; font-weight: 600; }
+.empty .ed { font-size: 24rpx; margin-top: 6rpx; }
+.empty .ea { margin: 26rpx auto 0; width: 300rpx; }
+
+/* 底部「下一步」条：把用户往下一环推 */
+.nextbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 26rpx; padding: 22rpx 26rpx;
+  background: #eef5f0; border: 1rpx solid #d5e7db; border-radius: 18rpx;
+}
+.nextbar .nt { font-size: 25rpx; color: #2f6140; font-weight: 600; flex: 1; }
+.nextbar .na { font-size: 25rpx; color: #3d7a4f; font-weight: 700; margin-left: 16rpx; }
+
+/* 折叠摘要行（参数区收起时显示当前值） */
+.fold { display: flex; align-items: center; justify-content: space-between; padding: 4rpx 0; }
+.fold .ft { font-size: 26rpx; color: #8f8f8f; }
+.fold .fv { font-size: 26rpx; color: #3d7a4f; font-weight: 600; max-width: 460rpx; text-align: right; }
+.fold .far { font-size: 22rpx; color: #b5b5b5; margin-left: 10rpx; }
+
+/* ================= 来源与状态标注 =================
+   全栈版每个取数都要说清「这批数据哪来的」，统一成一个徽章，别各写一套。 */
+
+/* 来源徽章：放在 pagehd 右侧，替代各页自写的一行状态文字 */
+.srcb {
+  display: inline-block; flex: 0 0 auto; margin-left: 16rpx;
+  font-size: 21rpx; font-weight: 600; line-height: 1.5;
+  padding: 3rpx 14rpx; border-radius: 8rpx;
+}
+.srcb.on { background: #eaf3ec; color: #3d7a4f; }
+.srcb.off { background: #f7f2e6; color: #a8762a; }
+.srcb.wait { background: #f1f0ec; color: #9a9a9a; }
+
+/* 离线提示条：只在「这页需要后端」时出现，一句话 + 一个修复动作 */
+.offbar {
+  display: flex; align-items: center;
+  padding: 18rpx 22rpx; margin-bottom: 24rpx;
+  background: #fdf8ee; border: 1rpx solid #efe0c4; border-radius: 16rpx;
+}
+.offbar .ot { flex: 1; min-width: 0; font-size: 23rpx; color: #8a6a2a; line-height: 1.65; }
+.offbar .oa { flex: 0 0 auto; margin-left: 16rpx; font-size: 23rpx; color: #a8762a; font-weight: 700; }
+
+/* ================= 数据卡 =================
+   「我的」与首页共用：三格数字 + 细分隔线，避免各页各写一套。 */
+.mine { display: flex; align-items: center; }
+.mine-hv { background: #faf9f6; }
+.mine .stats { flex: 1; display: flex; gap: 0; }
+.mine .stat {
+  flex: 1; position: relative;
+  background: transparent; border: none; border-radius: 0;
+  padding: 4rpx 0; text-align: center;
+}
+.mine .stat + .stat::after {
+  content: ''; position: absolute; left: 0; top: 14rpx; bottom: 14rpx;
+  width: 1rpx; background: #f0eee8;
+}
+.mine .stat .n { font-size: 42rpx; font-weight: 800; color: #3d7a4f; line-height: 1.2; }
+.mine .stat .l { font-size: 22rpx; color: #8f8f8f; margin-top: 6rpx; }
+.mine-a { flex: 0 0 auto; margin-left: 12rpx; color: #c8c4ba; font-size: 36rpx; line-height: 1; }
+
+/* ================= 折叠块 =================
+   参考型信息（数据统计、关于、只读记录）默认收起，首屏只留要办的事。 */
+.acc {
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 24rpx;
+  padding: 0 26rpx; box-shadow: 0 2rpx 16rpx rgba(60, 50, 30, 0.05);
+}
+.acc-h { display: flex; align-items: center; padding: 26rpx 0; }
+.acc-h .at { font-size: 27rpx; font-weight: 700; flex: 0 0 auto; }
+.acc-h .av {
+  flex: 1; min-width: 0; margin: 0 14rpx; text-align: right;
+  font-size: 23rpx; color: #8f8f8f;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.acc-h .aa { flex: 0 0 auto; font-size: 22rpx; color: #b5b5b5; }
+.acc-b { padding: 6rpx 0 24rpx; border-top: 1rpx solid #f0eee8; }
+

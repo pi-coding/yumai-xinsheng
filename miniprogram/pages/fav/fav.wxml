@@ -1,0 +1,134 @@
+<!-- 我的：账号 + 数据 + 收藏与作品 + 设置入口（Web 前端「我的」视图的对应页） -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">我的</text>
+      <text class="srcb {{src === 'server' ? 'on' : (src ? 'off' : 'wait')}}" wx:if="{{loggedIn}}">{{src === 'server' ? '服务端' : '离线'}}</text>
+    </view>
+    <view class="pd">{{loggedIn ? '收藏古籍与核验流水已同步到服务端，换设备也在。' : '未登录也能用；登录后古籍收藏可跨设备。'}}</view>
+  </view>
+
+  <!-- 一眼看全：数字 + 账号状态，动作只有两个 -->
+  <view class="card minebox">
+    <view class="mine">
+      <view class="stats">
+        <view class="stat">
+          <view class="n">{{bookCount}}</view>
+          <view class="l">收藏古籍</view>
+        </view>
+        <view class="stat">
+          <view class="n">{{workCount}}</view>
+          <view class="l">改编作品</view>
+        </view>
+        <view class="stat">
+          <view class="n">{{days}}</view>
+          <view class="l">连续天数</view>
+        </view>
+      </view>
+    </view>
+    <view class="acct">
+      <text class="ac-t">{{loggedIn ? ('已登录 · ' + nick) : '未登录 · 数据只存本机'}}</text>
+      <text class="ac-a" wx:if="{{loggedIn}}" bindtap="logout">退出登录</text>
+      <text class="ac-a" wx:else bindtap="toLogin">登录 / 注册 ›</text>
+    </view>
+  </view>
+
+  <!-- 收藏与作品 -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">我收藏的</text>
+      <text class="more" bindtap="toBooks">去书库加 ›</text>
+    </view>
+
+    <view class="tabs">
+      <view class="tab {{tab === 'books' ? 'on' : ''}}" data-t="books" bindtap="onTab">
+        古籍 <text class="num">{{bookCount}}</text>
+      </view>
+      <view class="tab {{tab === 'works' ? 'on' : ''}}" data-t="works" bindtap="onTab">
+        作品 <text class="num">{{workCount}}</text>
+      </view>
+    </view>
+
+    <!-- 收藏古籍 -->
+    <block wx:if="{{tab === 'books'}}">
+      <view class="books" wx:if="{{books.length}}">
+        <view class="book" wx:for="{{books}}" wx:key="name">
+          <view class="cover" style="background:linear-gradient(135deg,{{item.c1}},{{item.c2}})"
+                data-name="{{item.name}}" bindtap="openBook">
+            <view class="cover-frame"></view>
+            <text class="cover-title" style="font-size:{{item.fsize}}rpx">{{item.title}}</text>
+            <text class="cover-era">{{item.era}}</text>
+          </view>
+          <view class="favbtn on" data-name="{{item.name}}" catchtap="unfavBook">♥</view>
+          <view class="bd">
+            <view class="tt">
+              <text class="nm">{{item.name}}</text>
+              <text class="bu-tag">{{item.buShort}}</text>
+            </view>
+            <view class="au">{{item.era}} · {{item.author}}</view>
+            <view class="iv">{{item.intro}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:else>
+        <view class="em">♡</view>
+        <view class="et">还没有收藏古籍</view>
+        <view class="ed">在书库里点封面右上角的 ♡ 就能收进来</view>
+        <view class="btn btn-o btn-sm ea" bindtap="toBooks">去古籍书库</view>
+      </view>
+    </block>
+
+    <!-- 改编作品 -->
+    <block wx:else>
+      <view class="card" wx:if="{{works.length}}">
+        <view class="witem" wx:for="{{works}}" wx:key="i">
+          <view class="wt">{{item.text}}</view>
+          <view class="wm">
+            <text class="dir">{{item.dir}}</text>
+            <text class="at">{{item.date}}</text>
+          </view>
+          <view class="wacts">
+            <view class="btn btn-o btn-sm" data-v="{{item.text}}" bindtap="copyWork">复制</view>
+            <view class="btn btn-o btn-sm del" data-i="{{item.i}}" bindtap="delWork">删除</view>
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:else>
+        <view class="em">✍</view>
+        <view class="et">还没有改编作品</view>
+        <view class="ed">在改编工坊生成后点「加入作品集」</view>
+        <view class="btn btn-o btn-sm ea" bindtap="toWorkshop">去改编工坊</view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 服务端改编记录：与上面的本机作品集是两回事，默认收起免得混淆 -->
+  <view class="acc" wx:if="{{loggedIn}}">
+    <view class="acc-h" bindtap="onToggleHis">
+      <text class="at">服务端改编记录</text>
+      <text class="av">{{hisCount}} 条 · 自动记录、只读</text>
+      <text class="aa">{{hisOpen ? '收起' : '展开'}}</text>
+    </view>
+    <view class="acc-b" wx:if="{{hisOpen}}">
+      <view class="witem" wx:for="{{history}}" wx:key="time">
+        <view class="wt">{{item.output}}</view>
+        <view class="wm">
+          <text class="dir">{{item.dir}}</text>
+          <text class="at">{{item.time}}</text>
+        </view>
+        <view class="wt" style="font-size:23rpx;color:#8f8f8f;margin-top:8rpx;">原文：{{item.input}}</view>
+        <view class="wacts">
+          <view class="btn btn-o btn-sm" data-v="{{item.output}}" bindtap="copyWork">复制</view>
+        </view>
+      </view>
+      <view class="mini-empty" wx:if="{{!history.length}}">还没有服务端记录，改编一次就会出现。</view>
+    </view>
+  </view>
+
+  <view class="nextbar" bindtap="toSettings">
+    <text class="nt">兜底引擎 · 后端地址 · 清空本地数据</text>
+    <text class="na">设置 ›</text>
+  </view>
+
+</view>

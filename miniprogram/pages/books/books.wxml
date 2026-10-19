@@ -1,0 +1,64 @@
+<!-- 模块二：古籍书库 -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">古籍书库</text>
+      <text class="pa">{{src === 'local' ? '离线 · ' + total + ' 部' : total + ' 部'}}</text>
+    </view>
+    <view class="pd">按经史子集筛选，点封面看这本书的要旨、带篇名的名句与语料引用。</view>
+  </view>
+
+  <view class="toolbar">
+    <view class="search">
+      <text class="sic">🔍</text>
+      <input class="sinput" value="{{q}}" placeholder="搜书名 / 作者 / 朝代"
+             confirm-type="search" bindinput="onInput" />
+      <text class="sclr" wx:if="{{q}}" bindtap="onClear">✕</text>
+    </view>
+    <view class="bu-tabs">
+      <view class="chip {{item === bu ? 'chip-on' : ''}}" wx:for="{{bus}}" wx:key="*this"
+            data-bu="{{item}}" bindtap="onTab">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="count" wx:if="{{list.length}}">共 {{shown}} 部 · 点封面右上角 ♡ 收藏</view>
+  <view class="count" wx:if="{{!loggedIn}}">
+    <text bindtap="toLogin" style="color:#3d7a4f;font-weight:600;">未登录</text>
+    —— 收藏只存本机，登录后存服务端、换设备也在
+  </view>
+
+  <view class="books" wx:if="{{list.length}}">
+    <view class="book" wx:for="{{list}}" wx:key="name">
+      <view class="cover" style="background:linear-gradient(135deg,{{item.c1}},{{item.c2}})"
+            data-name="{{item.name}}" bindtap="openBook">
+        <view class="cover-frame"></view>
+        <text class="cover-title" style="font-size:{{item.fsize}}rpx">{{item.title}}</text>
+        <text class="cover-era">{{item.era}}</text>
+      </view>
+      <view class="favbtn {{item.fav ? 'on' : ''}}" data-name="{{item.name}}" catchtap="toggleFav">
+        {{item.fav ? '♥' : '♡'}}
+      </view>
+      <view class="bd">
+        <view class="tt">
+          <text class="nm">{{item.name}}</text>
+          <text class="bu-tag">{{item.buShort}}</text>
+        </view>
+        <view class="au">{{item.era}} · {{item.author}}</view>
+        <view class="iv">{{item.intro}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:else>
+    <view class="et">没有匹配的古籍</view>
+    <view class="ed">换个关键词，或清空筛选看全部 {{total}} 部</view>
+    <view class="btn btn-o btn-sm ea" bindtap="onReset">清空筛选</view>
+  </view>
+
+  <view class="nextbar" bindtap="toVerify">
+    <text class="nt">挑到一句拿不准的</text>
+    <text class="na">去核验真伪 ›</text>
+  </view>
+
+</view>

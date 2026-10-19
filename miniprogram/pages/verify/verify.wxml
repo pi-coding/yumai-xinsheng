@@ -1,0 +1,144 @@
+<!-- 溯源核验：报告「反伪古风」命题的服务端实现（判定口径与附录五 P1 逐条一致，离线时自动兜底） -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">溯源核验</text>
+      <text class="pa">{{src === 'local' ? '离线 · ' + casesTotal + ' 误传' : casesTotal + ' 误传 · ' + verifiedTotal + ' 真典'}}</text>
+    </view>
+    <view class="pd">贴一段文案，逐句判为 有据可考 / 出处存疑 / 出处讹变 / 伪古风，并给出实际情况与改法。</view>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{tab === 'check' ? 'on' : ''}}" data-t="check" bindtap="onTab">文案核验</view>
+    <view class="tab {{tab === 'cases' ? 'on' : ''}}" data-t="cases" bindtap="onTab">误传案例库</view>
+  </view>
+
+  <!-- ================= 核验 ================= -->
+  <block wx:if="{{tab === 'check'}}">
+    <view class="card">
+      <view class="s-lb">不知道贴什么？点一个示例直接看结果</view>
+      <view class="samples">
+        <text class="s-b" data-k="bad" bindtap="onSample">典型伪古风</text>
+        <text class="s-b" data-k="mix" bindtap="onSample">真伪混杂</text>
+        <text class="s-b" data-k="ok" bindtap="onSample">有据可考</text>
+      </view>
+      <textarea class="ta" placeholder="也可以粘贴自己的文案，例如：无人与我立黄昏，无人问我粥可温"
+                value="{{text}}" bindinput="onInput" maxlength="2000" auto-height></textarea>
+      <view class="ta-hint">换行即分段，最多 20 段；单次 ≤ 2000 字。文本只在本机判定，不上传。</view>
+      <view class="row-btns">
+        <view class="btn btn-p" hover-class="btn-hv" bindtap="run">开始核验</view>
+        <view class="btn btn-o" hover-class="btn-o-hv" bindtap="onClear">清空</view>
+      </view>
+    </view>
+
+    <block wx:if="{{result}}">
+      <!-- 总体结论 -->
+      <view class="verdict {{result.overall.cls}}">
+        <view class="vd-top">
+          <text class="vd-badge">{{result.overall.name}}</text>
+          <text class="vd-count">{{result.overall.countLine}}</text>
+        </view>
+        <view class="cred" wx:if="{{result.overall.hasCred}}">
+          <text class="cred-l">可信度</text>
+          <view class="cred-track"><view class="cred-fill" style="width:{{result.overall.credPct}}%"></view></view>
+          <text class="cred-n">{{result.overall.credibility}}</text>
+          <text class="cred-c">{{result.overall.credLabel}}</text>
+        </view>
+        <view class="cred" wx:else>
+          <text class="cred-l">可信度</text><text class="cred-none">— 未命中任何条目，不出分</text>
+        </view>
+        <view class="vd-sum">{{result.overall.summary}}</view>
+        <view class="vd-adv" wx:for="{{result.overall.advice}}" wx:key="*this">· {{item}}</view>
+      </view>
+
+      <!-- 逐段 -->
+      <view class="seg" wx:for="{{result.segments}}" wx:for-item="seg" wx:key="index">
+        <view class="seg-top">
+          <text class="seg-i" wx:if="{{result.mode === 'batch'}}">第 {{seg.index}} 段</text>
+          <text class="seg-badge {{seg.cls}}">{{seg.verdict.name}}</text>
+        </view>
+        <view class="seg-text">{{seg.text}}</view>
+        <view class="seg-sum">{{seg.verdict.summary}}</view>
+
+        <view class="hit {{h.cls}}" wx:for="{{seg.hits}}" wx:for-item="h" wx:key="pos">
+          <view class="hit-top">
+            <text class="hit-l">{{h.label}}</text>
+          </view>
+          <view class="hit-tags">
+            <text class="t-lv">{{h.level}}</text>
+            <text class="t-kind">{{h.kindText}}</text>
+            <text class="t-chk" wx:if="{{h.check}}">核验：{{h.check}}</text>
+          </view>
+          <block wx:if="{{h.kind === 'misinfo'}}">
+            <view class="kv"><text class="k">常见误标</text><text class="v bad">{{h.source}}</text></view>
+            <view class="kv"><text class="k">实际情况</text><text class="v">{{h.note}}</text></view>
+            <view class="kv" wx:if="{{h.advice}}"><text class="k">建议</text><text class="v good">{{h.advice}}</text></view>
+          </block>
+          <block wx:elif="{{h.kind === 'modern'}}">
+            <view class="kv"><text class="k">古风对应</text><text class="v">{{h.source}}</text></view>
+            <view class="kv" wx:if="{{h.note}}"><text class="k">出处</text><text class="v">{{h.note}}</text></view>
+          </block>
+          <block wx:else>
+            <view class="kv"><text class="k">出处</text><text class="v">{{h.source}}</text></view>
+            <view class="kv" wx:if="{{h.modern}}"><text class="k">对应今语</text><text class="v">{{h.modern}}</text></view>
+          </block>
+        </view>
+
+        <view class="seg-count">{{seg.countLine}}</view>
+      </view>
+
+      <!-- 下一步：核验完往改写走 -->
+      <view class="nextbar" hover-class="step-hv" bindtap="toWorkshop">
+        <text class="nt">查完想改写成规范说法？</text>
+        <text class="na">去改编工坊 ›</text>
+      </view>
+
+      <view class="row-btns" style="margin-top:20rpx;">
+        <view class="btn btn-o" hover-class="btn-o-hv" bindtap="copyResult">复制结论</view>
+      </view>
+
+      <view class="disc">{{result.disclaimer}}</view>
+    </block>
+
+    <view class="empty" wx:else>
+      <view class="et">还没有核验结果</view>
+      <view class="ed">点上方示例可立刻看到判定效果</view>
+    </view>
+  </block>
+
+  <!-- ================= 案例库 ================= -->
+  <block wx:else>
+    <view class="card">
+      <input class="ipt" placeholder="搜关键词：浮生六记 / 纳兰 / 讹变…" value="{{kw}}" bindinput="onKw"/>
+      <view class="chips">
+        <text class="chip {{level === '' ? 'on' : ''}}" data-v="" bindtap="onLevel">全部</text>
+        <text class="chip {{level === item.name ? 'on' : ''}}" wx:for="{{levels}}" wx:key="name"
+              data-v="{{item.name}}" bindtap="onLevel">{{item.name}} {{item.count}}</text>
+      </view>
+    </view>
+
+    <view class="case-n">共 {{list.length}} 条 · 每条都标注了核验方式，可据此自行复查</view>
+
+    <view class="case" wx:for="{{list}}" wx:key="phrase">
+      <view class="case-top">
+        <text class="case-p">{{item.phrase}}</text>
+        <text class="case-lv {{item.cls}}">{{item.level}}</text>
+      </view>
+      <view class="kv"><text class="k">常见误标</text><text class="v bad">{{item.wrong}}</text></view>
+      <view class="kv"><text class="k">实际情况</text><text class="v">{{item.truth}}</text></view>
+      <view class="kv"><text class="k">建议</text><text class="v good">{{item.advice}}</text></view>
+      <view class="case-act">
+        <text class="case-chk" wx:if="{{item.check}}">核验方式：{{item.check}}</text>
+        <text class="case-try" data-phrase="{{item.phrase}}" bindtap="tryPhrase">拿它试一次核验</text>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{list.length === 0}}">
+      <view class="et">没有匹配的案例</view>
+      <view class="ed">换个关键词，或点「全部」看 {{casesTotal}} 条误传案例</view>
+      <view class="btn btn-o btn-sm ea" bindtap="onLevelAll">看全部案例</view>
+    </view>
+  </block>
+
+</view>

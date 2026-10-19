@@ -1,0 +1,81 @@
+/* 模块五：古风科普日历 */
+.datebar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 20rpx;
+  padding: 20rpx 24rpx; margin-bottom: 24rpx;
+}
+.nav-btn {
+  width: 72rpx; height: 72rpx; border-radius: 16rpx;
+  background: #faf9f6; border: 1rpx solid #f0eee8;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40rpx; color: #5f5f5f; line-height: 1;
+}
+.date { text-align: center; }
+.dt { font-size: 30rpx; font-weight: 700; letter-spacing: 1rpx; }
+.dw { font-size: 22rpx; color: #8f8f8f; margin-top: 4rpx; }
+.tday { color: #b8860b; font-weight: 600; }
+
+/* 今日词条 */
+.word-card {
+  background: linear-gradient(135deg, #fdf6e6, #ffffff 70%);
+  border-color: #f0e2c2;
+}
+.wc-top { display: flex; gap: 12rpx; }
+.badge {
+  font-size: 21rpx; padding: 4rpx 16rpx; border-radius: 999rpx;
+  background: #ffffff; border: 1rpx solid #f0e2c2; color: #b8860b;
+}
+.badge-red { border-color: #f2c9c7; color: #c0504d; }
+.word {
+  font-size: 60rpx; font-weight: 800; letter-spacing: 6rpx;
+  margin: 22rpx 0 14rpx; line-height: 1.35;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+.modern { font-size: 26rpx; color: #5f5f5f; }
+.mb { color: #b8860b; font-weight: 700; }
+.copybtn {
+  margin-top: 26rpx; height: 72rpx; border-radius: 16rpx;
+  background: #ffffff; border: 1rpx solid #f0e2c2; color: #b8860b;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26rpx; font-weight: 600;
+}
+
+/* 四宫格 */
+.grid { display: flex; flex-wrap: wrap; gap: 18rpx; margin-top: 24rpx; }
+.gcell {
+  width: calc(50% - 9rpx);
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 18rpx;
+  padding: 24rpx 22rpx;
+}
+.gt { font-size: 24rpx; font-weight: 700; margin-bottom: 12rpx; }
+.gc { font-size: 23rpx; color: #5f5f5f; line-height: 1.75; }
+
+/* 用例 */
+.eg {
+  font-size: 27rpx; line-height: 1.9; padding: 14rpx 0;
+  border-bottom: 1rpx dashed #f0eee8;
+}
+.eg:last-child { border-bottom: none; }
+
+/* 索引 */
+.search {
+  display: flex; align-items: center; gap: 14rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 18rpx;
+  padding: 0 24rpx; height: 84rpx; margin-bottom: 20rpx;
+}
+.sic { font-size: 28rpx; opacity: 0.55; }
+.sinput { flex: 1; font-size: 27rpx; height: 84rpx; }
+.sclr { color: #b5b5b5; font-size: 26rpx; padding: 0 6rpx; }
+
+.chips { display: flex; flex-wrap: wrap; }
+.count { font-size: 23rpx; color: #8f8f8f; margin-bottom: 16rpx; }
+
+.crow {
+  display: flex; align-items: center; gap: 16rpx;
+  padding: 22rpx 0; border-bottom: 1rpx solid #f0eee8;
+}
+.crow:last-child { border-bottom: none; }
+.cw { font-size: 27rpx; font-weight: 700; flex: 0 0 210rpx; }
+.cs { flex: 1; font-size: 24rpx; color: #5f5f5f; }
+.ct { font-size: 21rpx; color: #b8860b; }
+.crow.on { background: #fdf9ef; border-radius: 12rpx; padding-left: 16rpx; padding-right: 16rpx; }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端目录未挂载 · 语脉新生</title>
+<style>
+  :root{--ink:#22303a;--muted:#6b7b86;--line:#e2e8ec;--bg:#f6f8f9;--red:#b4453d;--green:#3f7d63}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:var(--bg);color:var(--ink);
+       font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;padding:24px}
+  .card{max-width:640px;width:100%;background:#fff;border:1px solid var(--line);border-radius:14px;
+        padding:32px 34px;box-shadow:0 10px 30px rgba(30,50,60,.06)}
+  .tag{display:inline-block;font-size:12px;letter-spacing:.12em;color:var(--red);
+       border:1px solid rgba(180,69,61,.35);border-radius:99px;padding:3px 10px;margin-bottom:16px}
+  h1{margin:0 0 10px;font-size:21px;font-weight:700}
+  p{margin:0 0 14px;line-height:1.85;font-size:14.5px;color:var(--muted)}
+  code{background:#eef2f4;border-radius:5px;padding:1px 6px;font-size:13px;color:#2b4a56;
+       font-family:Consolas,Monaco,monospace}
+  .box{background:#fafcfc;border:1px solid var(--line);border-left:3px solid var(--green);
+       border-radius:0 8px 8px 0;padding:14px 16px;margin:18px 0;font-size:13.5px;line-height:1.9}
+  .box b{color:var(--ink)}
+  ul{margin:8px 0 0;padding-left:20px;font-size:13.5px;line-height:2;color:var(--muted)}
+  .foot{margin-top:22px;padding-top:16px;border-top:1px dashed var(--line);
+        font-size:12.5px;color:#93a2ab}
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="tag">启动自检</span>
+  <h1>后端已在运行，但没有找到 Web 前端目录</h1>
+  <p>这是后端内置的兜底页面。真正的界面在顶层的 <code>frontend/</code> 目录里，
+     后端启动时会从工作目录逐级向上探测它（要求目录内有 <code>index.html</code>）。</p>
+
+  <div class="box">
+    <b>期望的目录位置</b>
+    <ul>
+      <li><code>项目根/frontend/index.html</code></li>
+      <li><code>项目根/server/backend/target/yumai-platform.jar</code>（与前端同级）</li>
+    </ul>
+  </div>
+
+  <p>如果前端放在了别处，在 <code>application.yml</code> 里显式指定绝对路径即可：</p>
+  <div class="box">
+    <code>yumai:</code><br>
+    <code>&nbsp;&nbsp;web:</code><br>
+    <code>&nbsp;&nbsp;&nbsp;&nbsp;dir: "D:/学习资料/.../frontend"</code>
+  </div>
+
+  <p>接口本身不受影响，可以直接验证：
+     <code>/api/health</code>、<code>/api/archive/catalog</code>。</p>
+
+  <div class="foot">语脉新生 · 后端兜底页（当 <code>frontend</code> 被探测到时，此页不会出现）</div>
+</div>
+</body>
+</html>

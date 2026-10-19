@@ -1,0 +1,129 @@
+<!-- 模块三：语言改编工坊 -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">语言改编工坊</text>
+      <text class="pa" bindtap="toSettings">{{src === 'local' ? '离线引擎 ›' : (src === 'server' ? '服务端引擎 ›' : '引擎设置 ›')}}</text>
+    </view>
+    <view class="pd">输入一句白话或文言，选好语境与语气，得到规范的{{mode === 'm2c' ? '古风' : '白话'}}表达。</view>
+  </view>
+
+  <!-- 1. 先输入：首屏直接可用 -->
+  <view class="card">
+    <view class="modes">
+      <view class="chip {{item.k === mode ? 'chip-on' : ''}}" wx:for="{{modes}}" wx:key="k"
+            data-k="{{item.k}}" bindtap="onMode">{{item.t}}</view>
+    </view>
+
+    <textarea class="ta" value="{{input}}" placeholder="{{placeholder}}"
+              placeholder-class="ta-ph" maxlength="500" auto-height
+              bindinput="onInput" />
+    <view class="ta-foot">
+      <text class="cnt">{{input.length}} / 500</text>
+      <text class="clr" wx:if="{{input}}" bindtap="onClearIn">清空</text>
+    </view>
+
+    <view class="egs">
+      <text class="eg-lb">没想好写什么？点一个例子</text>
+      <view class="eg-wrap">
+        <view class="chip" wx:for="{{egs}}" wx:key="v" data-v="{{item.v}}" bindtap="onEg">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 参数：默认收起，只显示当前值，减少首屏干扰 -->
+    <view class="fold param-fold" bindtap="onToggleParam">
+      <text class="ft">语境 · 语气 · 语法形式</text>
+      <text class="fv">{{contexts[ctxIdx]}} · {{tones[toneIdx]}} · {{forms[formIdx]}}</text>
+      <text class="far">{{paramOpen ? '收起' : '调整'}}</text>
+    </view>
+
+    <view class="sels" wx:if="{{paramOpen}}">
+      <picker class="sel" range="{{contexts}}" value="{{ctxIdx}}" bindchange="onCtx">
+        <view class="sel-in">
+          <view class="sel-l">语境</view>
+          <view class="sel-v">{{contexts[ctxIdx]}} ▾</view>
+        </view>
+      </picker>
+      <picker class="sel" range="{{tones}}" value="{{toneIdx}}" bindchange="onTone">
+        <view class="sel-in">
+          <view class="sel-l">语气</view>
+          <view class="sel-v">{{tones[toneIdx]}} ▾</view>
+        </view>
+      </picker>
+      <picker class="sel" range="{{forms}}" value="{{formIdx}}" bindchange="onForm">
+        <view class="sel-in">
+          <view class="sel-l">语法形式</view>
+          <view class="sel-v">{{forms[formIdx]}} ▾</view>
+        </view>
+      </picker>
+    </view>
+
+    <view class="btn {{running ? 'btn-dis' : 'btn-p'}}" hover-class="{{running ? '' : 'btn-hv'}}"
+          style="margin-top:22rpx;" bindtap="onAdapt">{{running ? '改编中……' : '开始改编'}}</view>
+  </view>
+
+  <!-- 2. 结果 + 下一步 -->
+  <view class="card" style="margin-top:24rpx;" wx:if="{{hasOut}}">
+    <view class="res">{{out}}</view>
+    <view class="meta">
+      <view class="mg" wx:for="{{notes}}" wx:key="*this"><text class="dot">·</text><text>{{item}}</text></view>
+      <view class="mg"><text class="dot">·</text><text>参数：{{params}}</text></view>
+      <view class="mg" wx:if="{{src === 'local'}}">
+        <text class="dot">·</text><text>本次为离线兜底结果（后端未连接），规则引擎与 H5 版逐条一致</text>
+      </view>
+    </view>
+    <view class="out-acts">
+      <view class="btn btn-o btn-sm" hover-class="btn-o-hv" bindtap="onSave">♡ 加入作品集</view>
+      <view class="btn btn-o btn-sm" hover-class="btn-o-hv" bindtap="toVerify">核验这句</view>
+    </view>
+  </view>
+
+  <view class="nextbar" wx:if="{{hasOut}}" hover-class="step-hv" bindtap="toVerify">
+    <text class="nt">不确定改得对不对？</text>
+    <text class="na">拿去溯源核验 ›</text>
+  </view>
+
+  <view class="empty" wx:if="{{!hasOut}}">
+    <view class="et">还没有改编结果</view>
+    <view class="ed">输入一句、选好参数，点「开始改编」即可</view>
+  </view>
+
+  <!-- 3. 作品与历史 -->
+  <view class="sec" style="margin-top:36rpx;">
+    <view class="sec-h">
+      <text class="h2">我的作品</text>
+      <text class="more">{{workCount}} 条</text>
+    </view>
+    <view class="card" wx:if="{{works.length}}">
+      <view class="pitem" wx:for="{{works}}" wx:key="i">
+        <view class="pt">{{item.text}}</view>
+        <view class="pm">
+          <text class="dir">{{item.dir}}</text>
+          <text class="at">{{item.date}}</text>
+          <text class="del" data-i="{{item.i}}" bindtap="onDelWork">删除</text>
+        </view>
+      </view>
+    </view>
+    <view class="card mini-empty" wx:else>改编后点「加入作品集」，作品只存本机</view>
+  </view>
+
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">改编历史</text>
+      <text class="more">{{hisCount}} 条</text>
+    </view>
+    <view class="card" wx:if="{{history.length}}">
+      <view class="pitem" wx:for="{{history}}" wx:key="i" data-v="{{item.text}}" bindtap="onUseHistory">
+        <view class="pt">{{item.text}}</view>
+        <view class="pm">
+          <text class="dir">{{item.dir}}</text>
+          <text class="at">{{item.time}}</text>
+          <text class="reuse">再改一次</text>
+        </view>
+      </view>
+    </view>
+    <view class="card mini-empty" wx:else>暂无改编历史</view>
+  </view>
+
+</view>

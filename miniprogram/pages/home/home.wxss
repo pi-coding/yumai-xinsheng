@@ -1,0 +1,87 @@
+/* 模块一：工作台总览 */
+
+/* 连接状态行：放在 hero 与「三步上手」之间，不抢首屏 */
+.conn {
+  display: flex; align-items: center;
+  padding: 0 6rpx 26rpx;
+}
+.conn .cd {
+  width: 14rpx; height: 14rpx; border-radius: 50%;
+  margin-right: 12rpx; flex: 0 0 auto; background: #d9a441;
+}
+.conn .cd.on { background: #3d7a4f; }
+.conn .cd.off { background: #c0504d; }
+.conn .ct { font-size: 24rpx; color: #8f8f8f; flex: 1; }
+.conn .ca { font-size: 24rpx; color: #3d7a4f; font-weight: 600; flex: 0 0 auto; margin-left: 16rpx; }
+
+.hero {
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #3d7a4f 0%, #2f6140 60%, #264f36 100%);
+  padding: 38rpx 32rpx;
+  margin-bottom: 32rpx;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; right: -80rpx; bottom: -110rpx;
+  width: 340rpx; height: 340rpx; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+.hero-in { position: relative; z-index: 1; }
+.hero-kicker {
+  font-size: 22rpx; letter-spacing: 2rpx;
+  color: rgba(255, 255, 255, 0.66); margin-bottom: 14rpx;
+}
+.hero-title {
+  font-size: 46rpx; font-weight: 800; color: #ffffff;
+  letter-spacing: 6rpx; line-height: 1.3;
+}
+.hero-sub {
+  font-size: 25rpx; color: rgba(255, 255, 255, 0.84);
+  margin-top: 8rpx; letter-spacing: 1rpx; line-height: 1.6;
+}
+.hero-acts { display: flex; gap: 18rpx; margin-top: 30rpx; }
+.hero-btn { flex: 1; height: 78rpx; font-size: 27rpx; }
+.btn-hv { background: #c8933a; }
+.hero-btn-o {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1rpx solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+}
+.hero-btn-o-hv { background: rgba(255, 255, 255, 0.26); }
+
+/* 快捷入口 */
+.quick { display: flex; flex-direction: column; gap: 18rpx; }
+.qcard {
+  display: flex; align-items: center; gap: 22rpx;
+  background: #ffffff; border: 1rpx solid #e8e5de; border-radius: 20rpx;
+  padding: 26rpx 26rpx; box-shadow: 0 2rpx 16rpx rgba(60, 50, 30, 0.05);
+}
+.qcard-hv { background: #faf9f6; }
+.qic {
+  width: 68rpx; height: 68rpx; flex: 0 0 68rpx;
+  border-radius: 16rpx; background: #eaf3ec;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34rpx;
+}
+.qbd { flex: 1; min-width: 0; }
+.qt { font-size: 29rpx; font-weight: 700; }
+.qd { font-size: 23rpx; color: #8f8f8f; margin-top: 4rpx; }
+.qarrow { color: #c8c4ba; font-size: 40rpx; line-height: 1; }
+
+.mono { font-family: Consolas, Menlo, monospace; color: #3f7d9c; }
+
+/* 溯源核验入口 */
+.verify-entry {
+  display: flex; align-items: center;
+  background: linear-gradient(135deg, #2f6b57, #3d7a4f);
+  border-radius: 24rpx; padding: 28rpx 26rpx;
+  box-shadow: 0 6rpx 22rpx rgba(47, 107, 87, 0.22);
+}
+.ve-hv { opacity: 0.92; }
+.ve-l { flex: 1; }
+.ve-t { color: #ffffff; font-size: 30rpx; font-weight: 700; letter-spacing: 1rpx; }
+.ve-d { color: rgba(255, 255, 255, 0.82); font-size: 22rpx; line-height: 1.7; margin-top: 8rpx; }
+.ve-arrow { color: rgba(255, 255, 255, 0.7); font-size: 40rpx; margin-left: 16rpx; }

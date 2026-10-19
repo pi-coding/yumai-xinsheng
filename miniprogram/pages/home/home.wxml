@@ -1,0 +1,105 @@
+<!-- 模块一：工作台总览 -->
+<view class="page">
+
+  <!-- 首屏只回答一件事：现在该做什么 -->
+  <view class="hero">
+    <view class="hero-in">
+      <view class="hero-title">语脉新生</view>
+      <view class="hero-sub">查一句古语的真伪，把一句白话改写成古文</view>
+      <view class="hero-acts">
+        <view class="btn btn-g hero-btn" hover-class="btn-hv" bindtap="toVerify">核验一句话</view>
+        <view class="btn hero-btn hero-btn-o" hover-class="hero-btn-o-hv" bindtap="toWorkshop">改写白话</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 连接状态 / 账号：一行说明，不抢首屏 -->
+  <view class="conn">
+    <text class="cd {{online ? 'on' : 'off'}}"></text>
+    <text class="ct" wx:if="{{online === null}}">正在检测后端…</text>
+    <text class="ct" wx:elif="{{online}}">已连接后端 · {{loggedIn ? nick : '未登录'}}</text>
+    <text class="ct" wx:else>后端未连接 · 离线数据可用</text>
+    <text class="ca" wx:if="{{!loggedIn}}" bindtap="toLogin">去登录 ›</text>
+    <text class="ca" wx:else bindtap="toSettings">账号 ›</text>
+  </view>
+
+  <!-- 三步上手：给新用户一条最短路径 -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">三步上手</text>
+      <text class="more">约 1 分钟</text>
+    </view>
+    <view class="card">
+      <view class="steps">
+        <view class="step" hover-class="step-hv" bindtap="toBooks">
+          <text class="sn">1</text>
+          <view class="sb">
+            <view class="st">挑一句古语</view>
+            <view class="sd">古籍书库 → 点封面 → 要旨与带篇名的名句</view>
+          </view>
+          <text class="sa">›</text>
+        </view>
+        <view class="step" hover-class="step-hv" bindtap="toVerify">
+          <text class="sn">2</text>
+          <view class="sb">
+            <view class="st">核验它是不是伪古风</view>
+            <view class="sd">{{corpus.misinfo}} 条误传 + {{corpus.verified}} 条真典，逐句判定</view>
+          </view>
+          <text class="sa">›</text>
+        </view>
+        <view class="step" hover-class="step-hv" bindtap="toWorkshop">
+          <text class="sn">3</text>
+          <view class="sb">
+            <view class="st">改写后存进作品集</view>
+            <view class="sd">语境 · 语气 · 语法形式 → 规范古风用语</view>
+          </view>
+          <text class="sa">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 主入口：只留三个，其余进「我的收藏」 -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">去哪看看</text>
+      <text class="more">共 {{corpus.books}} 部古籍</text>
+    </view>
+    <view class="quick">
+      <view class="qcard" wx:for="{{quick}}" wx:key="key" data-key="{{item.key}}" bindtap="onQuick" hover-class="qcard-hv">
+        <view class="qic">{{item.icon}}</view>
+        <view class="qbd">
+          <view class="qt">{{item.title}}</view>
+          <view class="qd">{{item.desc}}</view>
+        </view>
+        <view class="qarrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的数据：整块可点，直接进收藏 -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">我的数据</text>
+      <text class="more">{{loggedIn ? '收藏存服务端' : '仅本机'}}</text>
+    </view>
+    <view class="card mine" data-key="fav" bindtap="onQuick" hover-class="mine-hv">
+      <view class="stats">
+        <view class="stat">
+          <view class="n">{{stats.books}}</view>
+          <view class="l">收藏古籍</view>
+        </view>
+        <view class="stat">
+          <view class="n">{{stats.works}}</view>
+          <view class="l">改编作品</view>
+        </view>
+        <view class="stat">
+          <view class="n">{{stats.days}}</view>
+          <view class="l">连续天数</view>
+        </view>
+      </view>
+      <text class="mine-a">›</text>
+    </view>
+  </view>
+
+</view>

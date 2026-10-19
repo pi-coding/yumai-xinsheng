@@ -1,0 +1,141 @@
+<!-- 设置与数据管理：按「会改的」在上、「只读的」在下排，只读项默认收起 -->
+<view class="page">
+
+  <view class="pagehd">
+    <view class="pagehd-top">
+      <text class="pt">设置</text>
+      <text class="srcb {{online === true ? 'on' : (online === false ? 'off' : 'wait')}}">{{online === true ? '服务端已连接' : (online === false ? '离线模式' : '检测中…')}}</text>
+    </view>
+    <view class="pd">账号、后端连接、兜底引擎与本地缓存。</view>
+  </view>
+
+  <!-- 1. 账号 -->
+  <view class="sec">
+    <view class="sec-h"><text class="h2">账号</text></view>
+    <view class="card">
+      <block wx:if="{{loggedIn}}">
+        <view class="row"><text class="k">当前账号</text><text class="v b">{{nick}}</text></view>
+        <view class="row"><text class="k">数据</text><text class="v">收藏 · 改编记录存服务端</text></view>
+        <view class="btn btn-o" style="margin-top:22rpx;" bindtap="logout">退出登录</view>
+      </block>
+      <block wx:else>
+        <view class="row"><text class="k">状态</text><text class="v">未登录 · 数据只存本机</text></view>
+        <view class="btn btn-p" style="margin-top:22rpx;" hover-class="btn-p-hv" bindtap="toLogin">登录 / 注册</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 2. 服务端 -->
+  <view class="sec">
+    <view class="sec-h"><text class="h2">服务端</text></view>
+    <view class="card">
+      <view class="field">
+        <view class="fl">后端地址</view>
+        <input class="fi" value="{{serverBase}}" placeholder="http://localhost:8081" bindinput="onBase" />
+      </view>
+      <view class="kb-acts">
+        <text class="kb-a" bindtap="saveBase">保存并重试</text>
+        <text class="kb-a" bindtap="resetBase">恢复默认</text>
+      </view>
+      <view class="hint">书库、日历、核验、改编、收藏都走后端；连不上时自动回退本机数据并标「离线」。</view>
+    </view>
+  </view>
+
+  <!-- 3. 兜底引擎（只在后端不可用时生效） -->
+  <view class="sec">
+    <view class="sec-h">
+      <text class="h2">兜底引擎</text>
+      <text class="more">后端不可用时生效</text>
+    </view>
+    <view class="card">
+      <radio-group bindchange="onEngine">
+        <label class="opt">
+          <view class="obd">
+            <view class="ot">本地规则引擎<text class="tag" style="margin-left:12rpx;">默认 · 离线</text></view>
+            <view class="od">118 条语料对 + 434 条文言词典，无需联网与密钥，结果可复现。</view>
+          </view>
+          <radio value="local" checked="{{engineMode === 'local'}}" color="#3d7a4f" />
+        </label>
+        <label class="opt">
+          <view class="obd">
+            <view class="ot">大模型 API<text class="tag tag-gold" style="margin-left:12rpx;">需配置</text></view>
+            <view class="od">走 OpenAI 兼容端点，失败自动回退本地引擎。</view>
+          </view>
+          <radio value="api" checked="{{engineMode === 'api'}}" color="#3d7a4f" />
+        </label>
+      </radio-group>
+
+      <view class="apibox" wx:if="{{engineMode === 'api'}}">
+        <view class="field">
+          <view class="fl">接口地址（OpenAI 兼容）</view>
+          <input class="fi" value="{{apiBase}}" placeholder="https://api.openai.com/v1/chat/completions"
+                 bindinput="onApiBase" />
+        </view>
+        <view class="field">
+          <view class="fl">API Key</view>
+          <input class="fi" value="{{apiKey}}" password placeholder="sk-..." bindinput="onKey" />
+        </view>
+        <view class="field">
+          <view class="fl">模型名</view>
+          <input class="fi" value="{{apiModel}}" placeholder="gpt-4o-mini" bindinput="onModel" />
+        </view>
+        <view class="hint">
+          小程序直连需在微信公众平台「开发管理 → 服务器域名」登记该地址，否则会被拦截；
+          不便登记时建议用本地规则引擎。
+        </view>
+        <view class="btn btn-o btn-sm" style="margin-top:20rpx;" bindtap="test">连通性测试</view>
+      </view>
+
+      <view class="btn btn-p" style="margin-top:26rpx;" hover-class="btn-p-hv" bindtap="save">保存引擎设置</view>
+    </view>
+  </view>
+
+  <!-- 4. 数据管理 -->
+  <view class="sec">
+    <view class="sec-h"><text class="h2">数据管理</text></view>
+    <view class="card">
+      <view class="row"><text class="k">服务端</text><text class="v">收藏 · 改编记录（登录后）</text></view>
+      <view class="row"><text class="k">仅本机</text><text class="v">作品集 · 引擎设置 · 连续天数</text></view>
+      <view class="btn btn-o danger" style="margin-top:22rpx;" bindtap="clearData">清空本地数据</view>
+    </view>
+  </view>
+
+  <!-- 5. 只读参考：默认收起 -->
+  <view class="acc" style="margin-bottom:26rpx;">
+    <view class="acc-h" bindtap="onToggleData">
+      <text class="at">内嵌数据</text>
+      <text class="av">古籍 {{corpus.books}} · 语料 {{corpus.pairs}} · 词典 {{corpus.lex + corpus.c2m}}</text>
+      <text class="aa">{{dataOpen ? '收起' : '展开'}}</text>
+    </view>
+    <view class="acc-b" wx:if="{{dataOpen}}">
+      <view class="row"><text class="k">古籍元数据</text><text class="v">{{corpus.books}} 部</text></view>
+      <view class="row"><text class="k">语料对</text><text class="v">{{corpus.pairs}} 条</text></view>
+      <view class="row"><text class="k">白话→文言</text><text class="v">{{corpus.lex}} 条</text></view>
+      <view class="row"><text class="k">文言→白话</text><text class="v">{{corpus.c2m}} 条</text></view>
+      <view class="row"><text class="k">日历词条</text><text class="v">{{corpus.cal}} 条</text></view>
+      <view class="row"><text class="k">连续使用</text><text class="v">{{streak}} 天</text></view>
+      <view class="row"><text class="k">版本</text><text class="v">v{{version}}</text></view>
+      <view class="btn btn-o btn-sm" style="margin-top:20rpx;" bindtap="copyReport">复制数据统计</view>
+    </view>
+  </view>
+
+  <view class="acc">
+    <view class="acc-h" bindtap="onToggleAbout">
+      <text class="at">关于</text>
+      <text class="av">附录五 T1 的微信小程序实现</text>
+      <text class="aa">{{aboutOpen ? '收起' : '展开'}}</text>
+    </view>
+    <view class="acc-b" wx:if="{{aboutOpen}}">
+      <view class="hint">
+        本小程序是调研报告「附录五 · 团队设计的科普工具」中 T1「古风转译小程序·语脉新生」的微信小程序实现。
+        原应用为飞书应用引擎 H5（仅存链接与 4 张界面图，无源码），本工程按界面图与正文描述重建；
+        插画与字体无法获取，古籍封面改为程序化生成的渐变封面。
+      </view>
+      <view class="hint" style="margin-top:14rpx;">
+        本版为全栈版：改编默认走后端 AdaptService（与 H5 版逐条一致，带 Redis 缓存），
+        后端不可用时回退本地规则引擎或自配大模型接口，结果会如实标注来源。
+      </view>
+    </view>
+  </view>
+
+</view>

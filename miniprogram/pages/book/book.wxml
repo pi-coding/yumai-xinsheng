@@ -1,0 +1,114 @@
+<!-- 古籍详情（增强版：要旨 / 名句 / 语料关联 / 词条 / 同部荐读，任何一部都不留空页） -->
+<view class="page" wx:if="{{loading}}">
+  <view class="empty"><view class="et">正在读取书目…</view></view>
+</view>
+
+<view class="page" wx:elif="{{b}}">
+
+  <view class="cover" style="background:linear-gradient(135deg,{{b.c1}},{{b.c2}})">
+    <view class="cover-frame"></view>
+    <text class="cover-title" style="font-size:{{b.fsize}}rpx">{{b.title}}</text>
+    <text class="cover-era">{{b.era}}</text>
+  </view>
+
+  <view class="card" style="margin-top:28rpx;">
+    <view class="row"><text class="k">书名</text><text class="v b">{{b.name}}</text></view>
+    <view class="row"><text class="k">部类</text><text class="v"><text class="tag">{{b.bu}}</text></text></view>
+    <view class="row"><text class="k">朝代</text><text class="v">{{b.era}}</text></view>
+    <view class="row"><text class="k">作者</text><text class="v">{{b.author}}</text></view>
+    <view class="row" wx:if="{{alias.length}}"><text class="k">别名</text><text class="v">{{alias}}</text></view>
+    <view class="row"><text class="k">简介</text><text class="v intro">{{b.intro}}</text></view>
+    <view class="row"><text class="k">统计</text><text class="v">名句 {{quoteCount}} 条 · 语料引用 {{pairCount}} 条 · 词条 {{calendarCount}} 条</text></view>
+  </view>
+
+  <view class="sec" wx:if="{{note}}">
+    <view class="sec-t"><text class="dot"></text>要旨 · 这本书有什么用</view>
+    <view class="bu-note">{{note}}</view>
+  </view>
+
+  <view class="sec">
+    <view class="sec-t"><text class="dot"></text>名句摘录
+      <text class="sec-n">{{quoteCount ? quoteCount + ' 条 · 句后标篇名，可据此核对原文' : '工具型典籍不强行摘句'}}</text>
+    </view>
+    <block wx:if="{{quotes.length}}">
+      <view class="quote" wx:for="{{quotes}}" wx:key="text">
+        <view class="quote-text">{{item.text}}</view>
+        <view class="quote-foot">
+          <text class="quote-from">——《{{b.name}}·{{item.from}}》</text>
+          <text class="quote-act" data-text="{{item.text}}" bindtap="quoteToWorkshop">看今译</text>
+        </view>
+      </view>
+    </block>
+    <view class="sec-empty" wx:else>本书暂未收录名句摘录——只收能确指篇名、可核对的句子，宁可留白也不凑数；上方「要旨」已说明它在考据里的用法。</view>
+  </view>
+
+  <view class="sec">
+    <view class="sec-t"><text class="dot"></text>被以下语料引用</view>
+    <block wx:if="{{pairs.length}}">
+      <view class="pair" wx:for="{{pairs}}" wx:key="modern">
+        <view class="p-modern">{{item.modern}}</view>
+        <view class="p-ancient">{{item.ancient}}</view>
+        <view class="p-src">{{item.source}}</view>
+      </view>
+    </block>
+    <view class="sec-empty" wx:else>报告语料库里没有直接引用本书的条目{{buPairs.length ? '，下面是同部类的参考语料（不是本书引文）' : '。'}}</view>
+
+    <block wx:if="{{!pairs.length && buPairs.length}}">
+      <view class="sec-sub"><text class="tag-o">同部类参考 · {{b.bu}}</text><text class="sec-n">只作语境参照，引用不要标成本书出处</text></view>
+      <view class="pair dim" wx:for="{{buPairs}}" wx:key="modern">
+        <view class="p-modern">{{item.modern}}</view>
+        <view class="p-ancient">{{item.ancient}}</view>
+        <view class="p-src">{{item.source}}</view>
+      </view>
+    </block>
+
+    <block wx:if="{{authorPairs.length}}">
+      <view class="sec-sub"><text class="tag-o">同作者作品</text><text class="sec-n">作者相同，是否收入本集未逐篇核对</text></view>
+      <view class="pair dim" wx:for="{{authorPairs}}" wx:key="modern">
+        <view class="p-modern">{{item.modern}}</view>
+        <view class="p-ancient">{{item.ancient}}</view>
+        <view class="p-src">{{item.source}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="sec">
+    <view class="sec-t"><text class="dot"></text>相关日历词条</view>
+    <view class="chips" wx:if="{{calendar.length}}">
+      <text class="chip" wx:for="{{calendar}}" wx:key="word">{{item.word}}</text>
+    </view>
+    <view class="sec-empty" wx:else>本书暂未进入 16 条科普词条的出处，可在「科普日历」查看全量排期。</view>
+  </view>
+
+  <view class="sec">
+    <view class="sec-t"><text class="dot"></text>同部其他典籍</view>
+    <view class="chips">
+      <text class="chip" wx:for="{{sameBu}}" wx:key="name" data-name="{{item.name}}" bindtap="openBook">
+        {{item.name}}<text class="chip-n" wx:if="{{item.quoteCount}}"> {{item.quoteCount}}句</text>
+      </text>
+    </view>
+  </view>
+
+  <view class="bu-intro" wx:if="{{buIntro}}"><text class="bi-b">{{b.bu}}导读：</text>{{buIntro}}</view>
+
+  <view class="acts">
+    <view class="btn {{fav ? 'btn-o' : 'btn-p'}}" hover-class="btn-hv" bindtap="toggleFav">
+      {{fav ? '♥ 已收藏（点击取消）' : '♡ 收藏这部古籍'}}
+    </view>
+    <view class="btn btn-o" hover-class="btn-o-hv" bindtap="toWorkshop">✍️ 去改编工坊试试</view>
+  </view>
+
+  <view class="nextbar" bindtap="toWorkshop">
+    <text class="nt">想用这本书的句子写东西</text>
+    <text class="na">去改编工坊 ›</text>
+  </view>
+
+  <view class="hint" style="margin-top:24rpx;">
+    古籍元数据为公开文献学常识整理；名句取自各书通行本原文并标注篇名，供核对，不代替原文校勘。
+    存疑者（如《列子》《管子》的成书与作者）已按「旧题」如实标注。
+    <text wx:if="{{src === 'local'}}">（本页当前为离线内置数据）</text>
+  </view>
+
+</view>
+
+<view class="empty" wx:else>未找到该古籍</view>
